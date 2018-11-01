@@ -26,7 +26,7 @@
 							</p>
 				<p style="margin-top:10px;color:#757575;overflow: hidden;">
 								<span class="icon" :class="{iconmask:!item.deadline}"><i class="far fa-calendar-alt icon" ></i>{{item.deadline}}</span>
-								<span class="icon" :class="{iconmask:!item.comment}"><i class="far fa-comment-dots icon" ></i>{{item.comment}}</span>
+								<span class="icon" :class="{iconmask:!item.comment}"><i class="far fa-comment-dots icon" ></i>{{overHidden(item.comment)}}</span>
 							</p>
 				</li>
 				<div class="editList" :class="{mask:item.mask}">
@@ -129,6 +129,13 @@ export default {
 			this.showList;
 			//完成編輯
 		},
+	overHidden:function(vm){
+		if(vm.length>=10)
+			return vm.substr(0,9)+"...";
+		else
+			return vm;
+		//避免字串過長
+	}
 	},
 	computed:{
 		showList:function(){
