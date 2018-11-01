@@ -13,35 +13,35 @@
 <div class="toDoList">
         <ul id="toDo">
 			<div class="todoItem" v-for="( item , index) in showList">
-        	<li :class="{onTask : item.toggle,starbackground :item.starbox}">
-						<input type="checkbox" v-model="item.toggle">
-						<p>{{item.content}}
-							<i class="fas fa-pencil-alt" :class="{pencolor : !item.mask}" style="float:right;">
-								<input class="starbox" type="checkbox" v-model="item.mask">
-							</i>
-							<i class="fa-star star" :class="{far :!item.starbox, fas : item.starbox,starcolor:item.starbox}">
-									<input class="starbox" type="checkbox" v-model="item.starbox">
-							</i>
-						</p>
-            <p style="margin-top:10px;color:#757575;overflow: hidden;">
-							<span class="icon" :class="{iconmask:!item.deadline}"><i class="far fa-calendar-alt icon" ></i>{{item.deadline}}</span>
-			 				<span class="icon" :class="{iconmask:!item.comment}"><i class="far fa-comment-dots icon" ></i>{{item.comment}}</span>
-						</p>
-            </li>
-			<div class="editList" :class="{mask:item.mask}">
-				<div class="edititem">
-					<i class="far fa-calendar-alt"></i><p>Deadline</p>
-					<input type="date" v-model="item.deadline">
+				<li :class="{onTask : item.toggle,starbackground :item.starbox}">
+							<input type="checkbox" v-model="item.toggle">
+							<p>{{item.content}}
+								<i class="fas fa-pencil-alt" :class="{pencolor : !item.mask}" style="float:right;">
+									<input class="starbox" type="checkbox" v-model="item.mask">
+								</i>
+								<i class="fa-star star" :class="{far :!item.starbox, fas : item.starbox,starcolor:item.starbox}">
+										<input class="starbox" type="checkbox" v-model="item.starbox">
+								</i>
+							</p>
+				<p style="margin-top:10px;color:#757575;overflow: hidden;">
+								<span class="icon" :class="{iconmask:!item.deadline}"><i class="far fa-calendar-alt icon" ></i>{{item.deadline}}</span>
+								<span class="icon" :class="{iconmask:!item.comment}"><i class="far fa-comment-dots icon" ></i>{{item.comment}}</span>
+							</p>
+				</li>
+				<div class="editList" :class="{mask:item.mask}">
+					<div class="edititem">
+						<i class="far fa-calendar-alt"></i><p>Deadline</p>
+						<input type="date" v-model="item.deadline">
+					</div>
+					<div class="edititem">
+						<i class="far fa-comment-dots"></i><p>Comment</p>
+						<textarea placeholder="type your memo here" rows="10" cols="50" v-model="item.comment"/>
+					</div>
+					<div class="edititem editbtn">
+						<button v-on:click="delList(item.id)">Del</button>
+						<button v-on:click="addTask(item.id)">Add Task</button>
+					</div>
 				</div>
-				<div class="edititem">
-					<i class="far fa-comment-dots"></i><p>Comment</p>
-					<textarea placeholder="type your memo here" rows="10" cols="50" v-model="item.comment"/>
-				</div>
-				<div class="edititem editbtn">
-					<button v-on:click="delList(item.id)">Del</button>
-					<button v-on:click="addTask(item.id)">Add Task</button>
-				</div>
-			</div>
 			</div>
                <p style="margin-top:10px;color:#C8C8C8; font-style:italic;">{{this.showList.length}} tasks left</p> 
         </ul>
@@ -339,7 +339,7 @@ i{
 }
 .pencolor{
 	color:$nav-color;
-	transition: all 1ms;
+	transition: all 3ms;
 }
 .starbox{
 	position:absolute;
@@ -359,6 +359,12 @@ i{
 	border: 1px solid $item-color;
 	margin:8px auto;
 	background-color:$item-color;
+	animation-name: edit;
+	animation-duration: .7s;
+}
+@keyframes edit {
+    0%   {transform:translateY(-100px) ;opacity: 0;}
+    100% {transform:translateY(0px) ; opacity: 1;}
 }
 .edititem{
 	width:80%;
@@ -417,6 +423,9 @@ i{
 	}
 .todoItem{
 	margin-top: 16px;
+	li{
+		transition: all .3s;
+	}
 }
 .icon{
 	margin-right:12px;
