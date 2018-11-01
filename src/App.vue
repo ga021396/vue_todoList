@@ -7,9 +7,10 @@
         <li v-on:click="changeState(1)"><a href="#">Completed</a></li>
     </ul>
 </div>
+
 <input id="input" type="text" placeholder=" 	＋ Add Task" v-model="todo">
 <input id="new" type="button" value="New" v-on:click="addList">
-    
+
 <div class="toDoList">
         <ul id="toDo">
 			<div class="todoItem" v-for="( item , index) in showList">
@@ -359,8 +360,8 @@ i{
 	border: 1px solid $item-color;
 	margin:8px auto;
 	background-color:$item-color;
-	animation-name: edit;
-	animation-duration: .7s;
+	// animation-name: edit;
+	// animation-duration: .7s;
 }
 @keyframes edit {
     0%   {transform:translateY(-100px) ;opacity: 0;}
