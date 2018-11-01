@@ -24,8 +24,8 @@
 							</i>
 						</p>
             <p style="margin-top:10px;color:#757575;overflow: hidden;">
-							<i class="far fa-calendar-alt icon" :class="{iconmask:!item.deadline}"></i>{{item.deadline}}
-			 				<i class="far fa-comment-dots icon" :class="{iconmask:!item.comment}"></i>{{item.comment}}
+							<span class="icon" :class="{iconmask:!item.deadline}"><i class="far fa-calendar-alt icon" ></i>{{item.deadline}}</span>
+			 				<span class="icon" :class="{iconmask:!item.comment}"><i class="far fa-comment-dots icon" ></i>{{item.comment}}</span>
 						</p>
             </li>
 			<div class="editList" :class="{mask:item.mask}">
@@ -75,7 +75,6 @@ export default {
       		todo: 'Hello World!',
 			list:[{id:0,content:"todo",toggle:false,starbox:false,mask:true,deadline:"",comment:""}],
 			show:2,
-			navAct:false,
 			key:0
     }
   },
@@ -163,6 +162,9 @@ watch:{
 </script>
 
 <style lang="scss">
+$nav-color:#4A90E2;
+$item-color:#f9f9f9;
+$star-color:#F5A623;
 #app{
   padding: 0;
   margin: 0;
@@ -176,7 +178,7 @@ body{
 #navbar{
     width: 100%;
     height: 76px;
-    background-color: #4A90E2 ;
+    background-color: $nav-color ;
 	position:relative;
 }
 #navbar ul{
@@ -235,7 +237,17 @@ input[type="text"]{
 .input-alert{
 	transition: all .3s;
 	border:2px solid red !important;
+	animation-name: alert;
+    animation-duration: .3s;
+	animation-timing-function: ease-in-out;
 }
+@keyframes alert {
+    0%   {transform:translateY(3px);}
+    25%  {transform:translateY(-3px);}
+    50%  {transform:translateY(2px);}
+    100% {transform:translateY(-2px);}
+}
+
 #new{
     position: absolute;
     left:50%;
@@ -248,12 +260,12 @@ input[type="text"]{
     font-weight: 600;
     font-size: 20px;
 	color:white;
-	background:#4A90E2;
-	border: #4A90E2;
+	background:$nav-color;
+	border: $nav-color;
 	transition: all .3s;
 	&:hover{
-		background:deepskyblue;
-		border: deepskyblue;
+		background:darken($nav-color,10%);
+		border: darken($nav-color,10%);
 	}
 }
 .toDoList{
@@ -272,7 +284,7 @@ input[type="text"]{
 .toDoList ul li{
 	width:100%;
 	height:102px;
-	background-color:#f9f9f9;
+	background-color:$item-color;
 	border-radius:5px;
 	list-style:none;
 	line-height:28px;
@@ -318,15 +330,15 @@ i{
 	transition: all .1s;
 }
 .starbackground{
-	background-color:#f8d956 !important;
+	background-color:lighten($star-color,30%) !important;
 	transition: all .3s;
 }
 .starcolor{
-	color:#F5A623;
+	color:$star-color;
 	transition: all .3s;
 }
 .pencolor{
-	color:dodgerblue;
+	color:$nav-color;
 	transition: all 1ms;
 }
 .starbox{
@@ -344,9 +356,9 @@ i{
 	height:300px;
 	width:620px;
 	position: relative;
-	border: 1px solid #f9f9f9;
+	border: 1px solid $item-color;
 	margin:8px auto;
-	background-color:#f9f9f9;
+	background-color:$item-color;
 }
 .edititem{
 	width:80%;
@@ -384,9 +396,9 @@ i{
 		box-sizing: border-box;
 		height:40px;
 		width:50%;
-		border: 1px solid #f9f9f9;
+		border: 1px solid $item-color;
 		border-radius: 5px;
-		background-color: #4A90E2;
+		background-color: $nav-color;
 		margin:0;
 		padding: 0;
 		color:white;
@@ -407,7 +419,7 @@ i{
 	margin-top: 16px;
 }
 .icon{
-	margin:0 12px;
+	margin-right:12px;
 }
 .iconmask{
 	display:none;
