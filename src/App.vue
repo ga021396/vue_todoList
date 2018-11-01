@@ -2,13 +2,13 @@
   <div id="app">
     <div id="navbar">
     <ul class="navtitle">
-        <li v-on:click="changeState(2)" class="navactive"><a href="#">My Tasks</a></li>
-        <li v-on:click="changeState(0)"><a href="#">In Progress</a></li>
-        <li v-on:click="changeState(1)"><a href="#">Completed</a></li>
+        <li v-on:click="changeState(2)" :class="{navactive:this.vis.all }"><a href="#">My Tasks</a></li>
+        <li v-on:click="changeState(0)" :class="{navactive:this.vis.ing }"><a href="#">In Progress</a></li>
+        <li v-on:click="changeState(1)" :class="{navactive:this.vis.com }"><a href="#">Completed</a></li>
     </ul>
 </div>
 
-<input id="input" type="text" placeholder=" 	＋ Add Task" v-model="todo">
+<input id="input" type="text" placeholder=" 	＋ Add Task" v-model="todo" :class="{inputalert:this.error}">
 <input id="new" type="button" value="New" v-on:click="addList">
 
 <div class="toDoList">
@@ -51,24 +51,6 @@
 </template>
 
 <script>
-function addclass(index){
-	var navitem=document.getElementsByClassName('navtitle')[0].getElementsByTagName('li');
-		for(var i=0;i<3;i++){
-			navitem[i].classList.remove("navactive");
-	}
-	navitem[index].classList.add("navactive");
-	//navbar 切換判定
-}
-function todoalert(){
-	var todo=document.getElementById("input");
-	todo.classList.add("input-alert");
-	//無輸入內容警告
-}
-function removealert(){
-	var todo=document.getElementById("input");
-	todo.classList.remove("input-alert");
-	//解除無輸入內容警告
-}
 export default {
   name: 'App',
   data: function () {
@@ -76,7 +58,9 @@ export default {
       		todo: 'Hello World!',
 			list:[{id:0,content:"todo",toggle:false,starbox:false,mask:true,deadline:"",comment:""}],
 			show:2,
-			key:0
+			key:0,
+			vis:{all:true,com:false,ing:false},
+			error:false
     }
   },
   methods:{
@@ -88,7 +72,7 @@ export default {
 				this.todo="";
 			}
 			else{
-				todoalert();
+				this.error=true;
 			}
 			//新增一個TODOLIST
     },
@@ -107,17 +91,20 @@ export default {
 			this.list.sort(function(a,b){
 				return a.toggle-b.toggle;
 			})
+			this.vis.ing=false;
+			this.vis.com=false;
+			this.vis.all=false;
 			if(state===0){
 			this.show=0;
-			addclass(1)
+			this.vis.ing=true;
 			}
 			else if(state===1){
 				this.show=1;
-				addclass(2)
+				this.vis.com=true;
 			}
 			else{
 				this.show=2;
-				addclass(0)
+				this.vis.all=true;
 			}
 			//改變NAVBAR狀態時
 		},
@@ -162,7 +149,7 @@ export default {
 watch:{
 	todo:function(){
 		if(this.todo){
-			removealert();
+			this.error=false;
 		}
 	}//偵測TODO是否為空
 }
@@ -242,7 +229,7 @@ input[type="text"]{
     padding-left: 15px;
     float: left;
 	}
-.input-alert{
+.inputalert{
 	transition: all .3s;
 	border:2px solid red !important;
 	animation-name: alert;
